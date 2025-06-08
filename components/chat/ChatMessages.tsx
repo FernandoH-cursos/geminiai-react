@@ -1,13 +1,14 @@
-import { Layout, List, Text } from '@ui-kitten/components';
 import { Fragment } from 'react';
 import { Image } from 'react-native';
-
 import { useThemeColor } from '@/hooks/useThemeColor';
+
 import {
   ImagesMessage,
   Message,
   TextMessage,
 } from '@/interfaces/chat.interfaces';
+
+import { Layout, List, Text } from '@ui-kitten/components';
 
 interface Props {
   messages: Message[];

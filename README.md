@@ -1,50 +1,37 @@
-# Welcome to your Expo app 👋
+# Ejercicios Prácticos de React + GenAI API
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Frontend que consume backend de nestJS que contiene endpoints que usan la API de _GenAI_.
 
-## Get started
+## Temas a tratar:
 
-1. Install dependencies
+### Consulta básica a GenIA
 
-   ```bash
-   npm install
-   ```
+- #### Zustand como gestor de estado.
+- #### Acciones como solicitudes hacia el backend de _NestJS_ + _GenAI_.
+- #### Creación y envío de mensajes.
+- #### Renderizar mensajes en formato Markdown.
 
-2. Start the app
+### Streams Response
 
-   ```bash
-   npx expo start
-   ```
+- #### Uso de Fetch API propio de Expo/Fetch.
+- #### Hacer un streaming de la respuesta mientras es generada por el lado de _GenAI_.
 
-In the output, you'll find options to open the app in a
+### Enviar archivos
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- #### Enviar archivos desde Expo.
+- #### Mostrar imágenes en el chat.
+- #### Restringir y controlar la selección de imágenes.
+- #### Envío mediante form-multipart.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+### Contexto conversacional
 
-## Get a fresh project
+- #### Mantener el estado del chat junto con el identificador del mismo.
+- ####  Reactorizaciones para poder aceptar un UUID en el body de las peticiones.
 
-When you're ready, run:
+### Generación y edición de imágenes
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- #### Generación de imágenes.
+- #### Selección de imágenes.
+- #### Edición de imágenes.
+- #### Carruseles.
+- #### Blobs.

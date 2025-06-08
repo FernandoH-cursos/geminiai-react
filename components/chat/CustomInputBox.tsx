@@ -1,7 +1,8 @@
-import { Button, Input, Layout } from '@ui-kitten/components';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
+
+import { Button, Input, Layout } from '@ui-kitten/components';
 import Ionicons from '@expo/vector-icons/Ionicons';
 interface Props {
   attachments?: any[];

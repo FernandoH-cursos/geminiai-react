@@ -1,21 +1,22 @@
+import { Fragment, useEffect } from 'react';
 import {
   DarkTheme,
   DefaultTheme,
   ThemeProvider,
 } from '@react-navigation/native';
-import { Fragment, useEffect } from 'react';
 
 import { useFonts } from 'expo-font';
 import { Slot } from 'expo-router';
-
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 import * as eva from '@eva-design/eva';
 import { ApplicationProvider } from '@ui-kitten/components';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import 'react-native-reanimated';
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

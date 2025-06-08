@@ -1,5 +1,5 @@
-import { Layout, List, Text } from '@ui-kitten/components';
 import { Image } from 'react-native';
+import { List } from '@ui-kitten/components';
 
 interface Props {
   images: string[];

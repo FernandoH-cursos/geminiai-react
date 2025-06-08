@@ -1,9 +1,12 @@
-import uuid from 'react-native-uuid';
-import { Layout } from '@ui-kitten/components';
-
 import { ChatMessages } from '@/components/chat/ChatMessages';
 import CustomInputBox from '@/components/chat/CustomInputBox';
+
 import { Message } from '@/interfaces/chat.interfaces';
+
+import { Layout } from '@ui-kitten/components';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+import uuid from 'react-native-uuid';
 
 const messages: Message[] = [
   {
@@ -31,8 +34,10 @@ const messages: Message[] = [
 ];
 
 const ChatHistoryScreen = () => {
+  const insets = useSafeAreaInsets();
+
   return (
-    <Layout style={{ flex: 1 }}>
+    <Layout style={{ flex: 1, paddingBottom: insets.bottom - 20 }}>
       <ChatMessages messages={messages} />
 
       <CustomInputBox onSendMessage={() => {}} />
