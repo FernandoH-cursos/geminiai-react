@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { KeyboardAvoidingView, Platform } from 'react-native';
 
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -13,17 +14,26 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
   const isAndroid = Platform.OS === 'android';
   const iconColor = useThemeColor({}, 'icon');
 
+  const [text, setText] = useState("");
+
+  const handleSendMessage = () => {
+    if (text.trim() === "") return;
+
+    onSendMessage(text);
+    setText("");
+  }
+
   return (
     <KeyboardAvoidingView
-      behavior={isAndroid ? 'height' : 'padding'}
+      behavior={isAndroid ? "height" : "padding"}
       keyboardVerticalOffset={isAndroid ? 0 : 85}
     >
       {/* Imágenes */}
       <Layout
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
           gap: 10,
         }}
       >
@@ -36,8 +46,8 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
       {/* Espacio para escribir y enviar mensaje */}
       <Layout
         style={{
-          flexDirection: 'row',
-          alignItems: 'center',
+          flexDirection: "row",
+          alignItems: "center",
           paddingBottom: isAndroid ? 10 : 20,
         }}
       >
@@ -48,12 +58,15 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
           }
         />
         <Input
+          value={text}
+          onChangeText={setText}
           placeholder="Escribe tu mensaje"
           multiline
           numberOfLines={4}
           style={{ flex: 1 }}
         />
         <Button
+          onPress={handleSendMessage}
           appearance="ghost"
           accessoryRight={
             <Ionicons name="paper-plane-outline" size={22} color={iconColor} />
