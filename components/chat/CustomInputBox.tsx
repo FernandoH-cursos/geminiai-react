@@ -1,27 +1,48 @@
-import { useState } from 'react';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { useState } from "react";
+import { Image, KeyboardAvoidingView, Platform } from "react-native";
+import { ImagePickerAsset } from "expo-image-picker";
 
-import { useThemeColor } from '@/hooks/useThemeColor';
+import { useThemeColor } from "@/hooks/useThemeColor";
 
-import { Button, Input, Layout } from '@ui-kitten/components';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { getGalleryImages } from "@/actions/image-picker";
+
+import { Button, Input, Layout } from "@ui-kitten/components";
+import Ionicons from "@expo/vector-icons/Ionicons";
 interface Props {
-  attachments?: any[];
-  onSendMessage: (message: string, attachments?: any[]) => void;
+  onSendMessage: (message: string, attachments: ImagePickerAsset[]) => void;
 }
 
-const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
-  const isAndroid = Platform.OS === 'android';
-  const iconColor = useThemeColor({}, 'icon');
+const CustomInputBox = ({ onSendMessage }: Props) => {
+  const isAndroid = Platform.OS === "android";
+  const iconColor = useThemeColor({}, "icon");
 
   const [text, setText] = useState("");
+  const [images, setImages] = useState<ImagePickerAsset[]>([]);
 
+  //* Maneja el envío del mensaje a Gemini para que lo procese y lo envíe al chat
   const handleSendMessage = () => {
-    if (text.trim() === "") return;
-
-    onSendMessage(text);
+    onSendMessage(text.trim(), images);
     setText("");
-  }
+    setImages([]);
+  };
+
+  //* Maneja la selección de imágenes desde la galería del dispositivo
+  const handlePickImages = async () => {
+    const MAX_IMAGES = 4;
+
+    const selectedImages = await getGalleryImages();
+
+    if (selectedImages.length === 0 || images.length >= MAX_IMAGES) return;
+
+    //* Limitar la cantidad de imágenes a agregar, es decir, si ya hay 4 imágenes, no se pueden agregar más.
+    const availableSlots = MAX_IMAGES - images.length;
+    const imagesToAdd = selectedImages.slice(0, availableSlots);
+
+    //* Si hay imágenes para agregar, las añadimos al estado de imágenes
+    if (imagesToAdd.length > 0) {
+      setImages([...images, ...imagesToAdd]);
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -37,10 +58,13 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
           gap: 10,
         }}
       >
-        {/* <Image
-          source={{ uri: 'https://reactnative.dev/img/tiny_logo.png' }}
-          style={{ width: 50, height: 50, marginTop: 5 }}
-        /> */}
+        {images.map((image) => (
+          <Image
+            key={image.uri}
+            source={{ uri: image.uri }}
+            style={{ width: 50, height: 50, marginTop: 5, borderRadius: 5 }}
+          />
+        ))}
       </Layout>
 
       {/* Espacio para escribir y enviar mensaje */}
@@ -52,6 +76,7 @@ const CustomInputBox = ({ attachments = [], onSendMessage }: Props) => {
         }}
       >
         <Button
+          onPress={handlePickImages}
           appearance="ghost"
           accessoryRight={
             <Ionicons name="attach-outline" size={22} color={iconColor} />
