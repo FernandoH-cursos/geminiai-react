@@ -3,7 +3,7 @@ import geminiApi from "../gemini.api";
 export interface FileType {
   uri: string;
   fileName?: string;
-  type?: string;
+  mimetype?: string;
 }
 
 //* Esta función envía un "prompt" y archivos a la API de Gemini utilizando FormData con axios
@@ -23,12 +23,16 @@ export const promptWithFiles = async (
       formData.append("files", {
         uri: file.uri,
         name: file.fileName ?? "image.jpg",
-        type: file.type ?? "image/jpeg",
+        type: file.mimetype ?? "image/jpeg",
       } as unknown as Blob);
     });
 
-    const response = await geminiApi.post(endpoint, formData);
-    console.log(JSON.stringify(response, null, 2));
+    const response = await geminiApi.post(endpoint, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    // console.log(JSON.stringify(response, null, 2));
 
     return response.data;
   } catch (error) {

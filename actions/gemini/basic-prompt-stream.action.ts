@@ -16,7 +16,7 @@ export const getBasicPromptStream = async (
   //* Si hay archivos adjuntos, se envían a la API de Gemini utilizando la función promptWithFiles que soporta FormData con archivos. 
   if (files.length > 0) {
     const response = await promptWithFiles("/basic-prompt-stream", prompt, files);
-    console.log(JSON.stringify({response}, null, 2));
+    // console.log(JSON.stringify({response}, null, 2));
 
     onChunk(response);
     return;
