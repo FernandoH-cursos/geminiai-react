@@ -13,16 +13,20 @@ export const getBasicPromptStream = async (
   files: FileType[],
   onChunk: (text: string) => void
 ) => {
-  //* Si hay archivos adjuntos, se envían a la API de Gemini utilizando la función promptWithFiles que soporta FormData con archivos. 
+  //* Si hay archivos adjuntos, se envían a la API de Gemini utilizando la función promptWithFiles que soporta FormData con archivos.
   if (files.length > 0) {
-    const response = await promptWithFiles("/basic-prompt-stream", prompt, files);
+    const response = await promptWithFiles(
+      "/basic-prompt-stream",
+      { prompt },
+      files
+    );
     // console.log(JSON.stringify({response}, null, 2));
 
     onChunk(response);
     return;
   }
 
-  //* Si no hay archivos adjuntos, se envía el prompt directamente a la API de Gemini usando expo/fetch. 
+  //* Si no hay archivos adjuntos, se envía el prompt directamente a la API de Gemini usando expo/fetch.
   const formData = new FormData();
   formData.append("prompt", prompt);
 
@@ -72,6 +76,5 @@ export const getBasicPromptStream = async (
   } catch (error) {
     console.error(error);
     throw "Unpected error happened";
-    
   }
 };
