@@ -1,47 +1,72 @@
-import CustomInputBox from '@/components/chat/CustomInputBox';
-import PreviousGenerationsGrid from '@/components/image-generation/PreviousGenerationsGrid';
-import Slideshow from '@/components/image-generation/Slideshow';
-import StyleSelector from '@/components/image-generation/StyleSelector';
+import { useImagePlaygroundStore } from "@/store/image-playground/imagePlayground.store";
 
-import { Layout } from '@ui-kitten/components';
+import CustomInputBox from "@/components/chat/CustomInputBox";
+import PreviousGenerationsGrid from "@/components/image-generation/PreviousGenerationsGrid";
 
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import Slideshow from "@/components/image-generation/Slideshow";
+import StyleSelector from "@/components/image-generation/StyleSelector";
+import NoImages from "@/components/image-generation/NoImages";
 
-const placeHolderImages = [
-  'https://picsum.photos/id/10/200/300',
-  'https://picsum.photos/id/20/200/300',
-  'https://picsum.photos/id/30/200/300',
-  'https://picsum.photos/id/40/200/300',
-  'https://picsum.photos/id/50/200/300',
-  'https://picsum.photos/id/60/200/300',
-  'https://picsum.photos/id/70/200/300',
-  'https://picsum.photos/id/80/200/300',
-  'https://picsum.photos/id/90/200/300',
-  'https://picsum.photos/id/100/200/300',
-  'https://picsum.photos/id/110/200/300',
-  'https://picsum.photos/id/120/200/300',
-  'https://picsum.photos/id/130/200/300',
-  'https://picsum.photos/id/140/200/300',
-  'https://picsum.photos/id/150/200/300',
-];
+import { Layout, Spinner } from "@ui-kitten/components";
+
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const ImageGenerationScreen = () => {
   const insets = useSafeAreaInsets();
+
+  const generatedImages = useImagePlaygroundStore((state) => state.images);
+  const imageHistory = useImagePlaygroundStore((state) => state.history);
+  const selectedStyle = useImagePlaygroundStore((state) => state.selectedStyle);
+  const isGenerating = useImagePlaygroundStore((state) => state.isGenerating);
+  const selectedImage = useImagePlaygroundStore((state) => state.selectedImage);
+  console.log(JSON.stringify(generatedImages, null, 2));
+
+  const {
+    setSelectedStyle,
+    generateImage,
+    generateNextImage,
+    setSelectedImage,
+  } = useImagePlaygroundStore();
   return (
     <Layout style={{ flex: 1, paddingBottom: insets.bottom - 20 }}>
-      <Slideshow
-        images={placeHolderImages}
-        isGenerating
-        onLastImage={() => {
-          console.log("Última imagen generada");
-        }}
-      />
+      {generatedImages.length === 0 && !isGenerating && <NoImages />}
+
+      {generatedImages.length === 0 && isGenerating && (
+        <Layout
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            height: 300,
+          }}
+        >
+          <Spinner size="large" />
+        </Layout>
+      )}
+
+      {/* Slider con imagenes generadas */}
+      {generatedImages.length > 0 && (
+        <Slideshow
+          images={generatedImages}
+          isGenerating={isGenerating}
+          onLastImage={generateNextImage}
+        />
+      )}
+
       {/* Selector de estilos */}
-      <StyleSelector onSelectStyle={() => {}} />
+      <StyleSelector
+        selectedStyle={selectedStyle}
+        onSelectStyle={setSelectedStyle}
+      />
 
-      <PreviousGenerationsGrid images={placeHolderImages} />
+      {/* Grid de galería con su historial  */}
+      <PreviousGenerationsGrid
+        selectedImage={selectedImage}
+        onSelectedImage={setSelectedImage}
+        images={imageHistory}
+      />
 
-      <CustomInputBox onSendMessage={() => {}} />
+      {/* Input para ingresar el prompt */}
+      <CustomInputBox onSendMessage={generateImage} />
     </Layout>
   );
 };

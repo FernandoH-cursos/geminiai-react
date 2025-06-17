@@ -12,11 +12,13 @@ interface JsonBody {
 
 //* Esta función envía un "prompt" y archivos a la API de Gemini utilizando FormData con axios
 //* Tambien puede recibir un objeto JSON como cuerpo de la solicitud aparte del prompt y los archivos.
-export const promptWithFiles = async (
+
+//* El generico <T> permite que la función sea reutilizable para diferentes tipos de respuesta.
+export const promptWithFiles = async <T>(
   endpoint: string,
   body: JsonBody,
   files: FileType[]
-): Promise<string> => {
+): Promise<T> => {
   try {
     //* "FormData" es una interfaz que permite construir un conjunto de pares clave/valor para enviar datos a través de una solicitud HTTP.
     //* En este caso, se utiliza para enviar un "prompt" y archivos adjuntos(images) a la API de Gemini.
@@ -36,7 +38,7 @@ export const promptWithFiles = async (
       } as unknown as Blob);
     });
 
-    const response = await geminiApi.post(endpoint, formData, {
+    const response = await geminiApi.post<T>(endpoint, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },

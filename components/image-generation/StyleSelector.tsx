@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { List, Layout, Text } from '@ui-kitten/components';
 
-const artStyles = [
+const DEFAULT_ART_STYLES = [
   'Realista',
   'Anime',
   'Manga',
@@ -12,22 +12,19 @@ const artStyles = [
 ];
 
 interface Props {
+  artStyles?: string[];
+  selectedStyle: string;
   onSelectStyle: (style: string) => void;
 }
 
-const StyleSelector = ({ onSelectStyle }: Props) => {
-  const [selectedStyle, setSelectedStyle] = useState<string | null>(null);
+const StyleSelector = ({
+  artStyles = DEFAULT_ART_STYLES,
+  selectedStyle,
+  onSelectStyle,
+}: Props) => {
 
-  const handleSelectStyle = (style: string) => {
-    if (selectedStyle === style) {
-      setSelectedStyle(null);
-      onSelectStyle('');
-      return;
-    }
-
-    setSelectedStyle(style);
-    onSelectStyle(style);
-  };
+  const handleSelectStyle = (style: string) => onSelectStyle(style);
+  
 
   return (
     <List
@@ -60,9 +57,11 @@ const StyleSelector = ({ onSelectStyle }: Props) => {
 
 const styles = StyleSheet.create({
   list: {
+    flexGrow: 0,
     marginVertical: 10,
     paddingHorizontal: 10,
-    height: 70,
+    height: 50,
+    backgroundColor: 'white'
   },
   pill: {
     paddingHorizontal: 16,
