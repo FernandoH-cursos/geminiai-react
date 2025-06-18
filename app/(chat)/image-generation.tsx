@@ -19,7 +19,19 @@ const ImageGenerationScreen = () => {
   const selectedStyle = useImagePlaygroundStore((state) => state.selectedStyle);
   const isGenerating = useImagePlaygroundStore((state) => state.isGenerating);
   const selectedImage = useImagePlaygroundStore((state) => state.selectedImage);
-  console.log(JSON.stringify(generatedImages, null, 2));
+  console.log(
+    JSON.stringify(
+      {
+        generatedImages,
+        imageHistory,
+        isGenerating,
+        selectedStyle,
+        selectedImage,
+      },
+      null,
+      2
+    )
+  );
 
   const {
     setSelectedStyle,

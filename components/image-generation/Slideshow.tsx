@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Image, StyleSheet, useWindowDimensions } from "react-native";
 
-import { Layout, Spinner, ViewPager } from "@ui-kitten/components";
+import { Layout, Spinner } from "@ui-kitten/components";
 
 import { useSharedValue } from "react-native-reanimated";
 import Carousel from "react-native-reanimated-carousel";

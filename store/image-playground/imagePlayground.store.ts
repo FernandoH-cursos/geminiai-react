@@ -72,6 +72,7 @@ export const useImagePlaygroundStore = create<ImagePlaygroundState>(
       //* Si hay una imagen seleccionada, se convierte a un archivo de imagen. 
       if (selectedImage !== "") {
         const imageFile = await urlToImageFile(selectedImage);
+        console.log(JSON.stringify(imageFile, null, 2));
         images.push(imageFile);
       }
 

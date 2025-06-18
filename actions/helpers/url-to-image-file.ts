@@ -1,6 +1,6 @@
-import { FileType } from "./prompt-with-images";
+import * as GeminiActions from '@/actions/gemini';
 
-export const urlToImageFile = async(url: string): Promise<FileType> => {
+export const urlToImageFile = async(url: string): Promise<GeminiActions.ImageFile> => {
   const response = await fetch(url);
 
   // Convierte la respuesta a un blob
